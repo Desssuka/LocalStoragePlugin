@@ -6,9 +6,7 @@ static var _DEBUG_MODE: bool = true;
 
 static func get_item(key: String) -> String:
 	var js_eval_code = 'localStorage.getItem("%s")' % [key if _DEBUG_MODE else _encrypt(key)];
-	print("get: " + js_eval_code);
 	var local_storage_item = JavaScriptBridge.eval(js_eval_code);
-	print("item: ", local_storage_item);
 	var value = JSON.stringify(local_storage_item) if _DEBUG_MODE else _decrypt(local_storage_item);
 	var parsed_value = JSON.parse_string(value);
 
@@ -17,7 +15,6 @@ static func get_item(key: String) -> String:
 static func set_item(key: String, value: Variant):
 	var formattedValue = JSON.stringify(value);
 	var js_eval_code = 'localStorage.setItem("%s", %s)' % [key if _DEBUG_MODE else _encrypt(key), formattedValue if _DEBUG_MODE else '"' + _encrypt(formattedValue) + '"'];
-	print("set: " + js_eval_code)
 	JavaScriptBridge.eval(js_eval_code);
 
 static func _encrypt(text: String) -> String:
